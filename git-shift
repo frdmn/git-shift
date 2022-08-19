@@ -229,6 +229,11 @@ sub git_rewrite_commit {
         }
     }
 
+    my $check_gpg = `git config --get commit.gpgsign`;
+    if ($check_gpg =~ m/true/) {
+        push @parent_opts, '-S';
+    }
+
     local $ENV{GIT_COMMITTER_DATE} = "$ctime $ctz";
     local $ENV{GIT_AUTHOR_DATE} = "$atime $atz";
     local $ENV{GIT_COMMITTER_NAME} = $committer_name;
